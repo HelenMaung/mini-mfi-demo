@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+		xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="
+        http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+	<changeSet id="001-create-mamber" author="helen">
+
+		<createTable tableName="member">
+			<column name="id" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false" />
+			</column>
+
+			<column name="first_name" type="VARCHAR(100)" />
+			
+			<column name="last_name" type="VARCHAR(100)" />
+			
+			<column name="phone" type="VARCHAR(255)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+			
+			<column name="nrc" type="VARCHAR(20)">
+				<constraints nullable="false" unique="true"></constraints>
+			</column>
+			
+			<column name="address" type="VARCHAR(20)">
+				<constraints nullable="false"></constraints>
+			</column>
+			
+			<column name="join_date" type="TIMESTAMP"></column>
+			
+			<column name="status" type="BOOLEAN" defaultValueBoolean="true"></column>
+
+		</createTable>
+
+	</changeSet>
+
+</databaseChangeLog>
