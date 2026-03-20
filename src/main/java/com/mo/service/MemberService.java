@@ -5,7 +5,10 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.mo.dto.MemberRequestDto;
+import com.mo.dto.MemberRespondDto;
 import com.mo.entity.Member;
+import com.mo.mappers.MemberMapper;
 import com.mo.repository.MemberRepo;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -17,23 +20,32 @@ public class MemberService {
 
 	private final MemberRepo memberRepo;
 
-	public Member findById(Long id) {
+	public MemberRespondDto findById(Long id) {
 
-		return memberRepo.findById(id)
-				.orElseThrow(EntityNotFoundException::new);
+//		return memberRepo.findById(id)
+//				.orElseThrow(EntityNotFoundException::new);
+		
+		Member member = memberRepo.findById(id).orElseThrow(EntityNotFoundException::new);
+		return MemberMapper.toDTO(member);
 	}
 
-	public Member createMember(Member member) {
+	public MemberRespondDto createMember(MemberRequestDto memberDto) {
+		Member member = MemberMapper.toEntity(memberDto);
+//		validateUniqueness(memberDto, null);
 
-		validateUniqueness(member, null);
+	    member.setJoinDate(LocalDateTime.now());
 
-		member.setJoinDate(LocalDateTime.now());
-		return memberRepo.save(member);
+	    Member saved = memberRepo.save(member);
+
+	    return MemberMapper.toDTO(saved);
+
+	
 	}
 
-	public List<Member> findAll() {
+	public List<MemberRespondDto> findAll() {
 
-		return memberRepo.findAll();
+		return memberRepo.findAll()
+				.stream().map(MemberMapper::toDTO).toList();
 	}
 
 	public Member updateMemberData(Member updateMember, Long id) {
@@ -68,20 +80,20 @@ public class MemberService {
 		memberRepo.delete(existingMember);
 	}
 
-	private void validateUniqueness(Member newMember, Member existingMember) {
-
-		if (existingMember == null || !existingMember.getPhone().equals(newMember.getPhone())) {
-			if (memberRepo.existsByPhone(newMember.getPhone())) {
-				throw new IllegalArgumentException("Phone already exists" + newMember.getPhone());
-
-			}
-		}
-
-		if (existingMember == null || !existingMember.getNrc().equals(newMember.getNrc())) {
-			if (memberRepo.existsByNrc(newMember.getNrc())) {
-				throw new IllegalArgumentException("NRC already exists: " + newMember.getNrc());
-			}
-		}
-
-	}
+//	private void validateUniquenes(MemberRequestDto newMember, MemberRespondDto existingMember) {
+//
+//		if (existingMember == null || !existingMember.getPhone().equals(newMember.getPhone())) {
+//			if (memberRepo.existsByPhone(newMember.getPhone())) {
+//				throw new IllegalArgumentException("Phone already exists" + newMember.getPhone());
+//
+//			}
+//		}
+//
+//		if (existingMember == null || !existingMember.getNrc().equals(newMember.getNrc())) {
+//			if (memberRepo.existsByNrc(newMember.getNrc())) {
+//				throw new IllegalArgumentException("NRC already exists: " + newMember.getNrc());
+//			}
+//		}
+//
+//	}
 }

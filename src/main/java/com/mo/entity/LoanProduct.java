@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.mo.util.CalculationType;
+import com.mo.emuns.CalculationType;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;

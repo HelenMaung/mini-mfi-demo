@@ -2,7 +2,7 @@ package com.mo.entity;
 
 import java.math.BigDecimal;
 
-import com.mo.util.CalculationType;
+import com.mo.emuns.CalculationType;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

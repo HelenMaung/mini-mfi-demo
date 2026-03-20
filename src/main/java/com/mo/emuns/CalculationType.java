@@ -1,4 +1,4 @@
-package com.mo.util;
+package com.mo.emuns;
 
 public enum CalculationType {
 	FLAT, EMI
